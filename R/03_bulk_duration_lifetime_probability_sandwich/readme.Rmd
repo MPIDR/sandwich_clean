@@ -1,0 +1,84 @@
+---
+title: "Readme"
+author: "Diego Alburez"
+date: "1 7 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
+```
+
+[DEPRECATED: moved to general readme file]
+
+Estimates mean number of months spent sandwiched (one value per country-cohort).
+
+## Parallelisation
+
+Works in Hydra (windows), should work in Linux.
+Paralelises with dopar and it is quite fast and doesn't use that much memory (1 hr per menu item). 
+Can run multiple jobs in Hydra
+
+## Menu
+
+Note that the estiamtes include sandwich and grandsandwich so no need to run separately!
+
+Types of sandwich are:
+
+```{r}
+menu_choice <- "small_affinal"
+menu_choice <- "medium_affinal"
+menu_choice <- "medium_blood"
+```
+
+
+Other exist but are not essential.
+
+```{r}
+
+if(menu_choice == "small_affinal"){
+  tau <- 5
+  kappa_kids <- 5
+  kappa_gkids <- 5
+  cohorts_to_keep <- "every_5"
+  include_in_laws <- T
+  sex_keep <-  "both"  
+} else if(menu_choice == "medium_affinal"){
+  tau <- 5
+  kappa_kids <- 15
+  kappa_gkids <- 15
+  cohorts_to_keep <- "every_5"
+  include_in_laws <- T
+  sex_keep <-  "both"    
+} else if(menu_choice == "large_affinal"){
+  tau <- 5
+  kappa_kids <- 18
+  kappa_gkids <- 18
+  cohorts_to_keep <- "every_5"
+  include_in_laws <- T
+  sex_keep <-  "both"  
+} else if(menu_choice == "medium_blood"){
+  tau <- 5
+  kappa_kids <- 15
+  kappa_gkids <- 15
+  cohorts_to_keep <- "every_5"
+  include_in_laws <- F
+  sex_keep <-  "both"    
+} 
+```
+
+## Output (value)
+
+On-the-go values are stores in a temp folder in ` ../../Data/temp`, which is defined according to the paramters provided:
+
+```{r}
+pat <- paste0(sex_keep, "_", cohorts_labs, "_", in_law_lab, "_k_s_", kappa_kids, "_k_gs_", kappa_gkids, "_", tau)
+```
+
+If the directory does not exist, it is created. 
+
+## Todo
+
+- Do age-specific values
+- Figure out how to debug, eg. 001 Rsaves is not exported: Error in { : task 24 failed - "dim(X) muss positive Länge haben"
+[1] "something screwed up in XIMS i= 1 ../../Data/temp/both_cohort_every_5_blood_kin_k_s_15_k_gs_15_5/001.Rsave Not written" 

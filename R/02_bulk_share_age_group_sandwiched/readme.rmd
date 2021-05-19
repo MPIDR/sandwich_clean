@@ -1,0 +1,258 @@
+---
+title: "README: Bulk estimates of age-specific squeeze"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
+```
+
+
+[DEPRECATED: created higher-level readme one level up]
+Last updated: 20200826
+
+Run these scripts as an Rstudio JOB using the job_sandwich_regions.R file or similar.
+This will estimate *sandwichness by age for all world countries saving a csv file for each country after it is processed.
+This is, for each birth cohort, the share of a given age group that was (grand)sandwiched between generations.
+Countries are ordered by regions (in the job file, there is a loop so that all countries are run by their regions only once)
+
+
+## Parallelisation
+
+Works in Hydra (windows) but will gve errors in Linux (mosty related to text format of country names, I think)
+Written to run on Hydra 1 and 2 simulatenaous. 
+The idea is to run 4 separate jobs from Rstudio using the corresponding scripts in this directory. 
+For a two-sex population running on many cores, this takes around 2.5 days to run for each type of generational squeeze if you consider all cohort (see below).
+Recommendation: estimate only evet 5 birth cohort year.
+
+How to run:
+
+1. Open the directory's Rstudio project
+1. Open `00_run_jobs.R` and decide which jobs to run. If using the everz?5 cohorts onlz, zou can run everzthing in Hzdra 2 and it takes about 5 hours per region. Otherwise, use in Hydra 1 and 2. Normally, you would run, for example, sandwich job 1-2 in Hydra 1 and sandwich jobs 3-4 in Hydra 2. Don't run more than two jobs at the same time in each Hydra. Hydra 2 is faster and regions 3-4 take longer, so run them there.
+1. After running all the jobs, run the `05_format_estimates.R` script to consolidate all the country-level results into a single csv file and export it to `Data/estimates`.
+
+## Key parameters 
+
+Thinks you might want to change for each type of estimate (see Output section):
+
+### Type of generational squeeze
+
+```{r}
+type <- "sandwich"
+# type <- "grandsandwich"
+```
+
+### Birth cohorts to keep:
+
+By default, only works on 1970-2040 cohorts, the ones that makes sense to analyze.
+
+`every_5` is prefered as running all cohorts takes around 3 days running 8 parallel jobs on both Hydras.
+
+```{r}
+cohorts_to_keep <- "every_5"
+# cohorts_to_keep <- "all"
+
+cohorts_labs <- paste0("cohort_", cohorts_to_keep)
+```
+
+### Definition of dependent child or grandchild:
+
+As of June 29 2020, I am using the following definitions:
+
+```{r}
+kappa <- switch(type, sandwich = 18, grandsandwich = 15)
+```
+
+### Definition of dependent parent (years till death):
+
+```{r}
+tau <- 5
+```
+
+### Add in-laws?
+
+Include parents-in-law within tau years of death, in addition to parents?
+Note that this will chose fathers and mothers in law, irrespective of the value of `sex_keep`/
+
+```{r}
+in_laws <- TRUE
+
+# For exporting name
+in_law_lab <- ifelse(in_laws, "in_laws", "blood_kin")
+```
+
+### COnsider an all-female, all-male or mixed-sex population?
+
+Keep only female, only male, or all types of kin?
+In practice, it only determines the sex of egos and whether fathers, mothers, etc are chosen.
+Children and in-lawas of both sexes are always considered.
+
+```{r}
+sex_keep <-  "both"
+```
+
+## Combination of parameters
+
+For the final results, not all combination of parameters are needed. 
+Here, I define the combinations that must be run to produce the desired results
+Grandsandwich are the same parameters for each type.
+
+The types of sandwiches available are:
+
+```{r}
+# This will determine which parameters are chosen for each type of 
+# generational squeeze. Depending on the choice of sandwich, 
+# the parameters.r script assigns the corresponding values.
+# Note that the super-asssignemtn operator is required if running
+# this from job scripts <<-
+
+# Sandwich
+menu_choice <- "sand_full"
+# menu_choice <<- "sand_blood"
+# menu_choice <<- "sand_female"
+
+# Grandsandwich
+# menu_choice <- "gsand_full"
+# menu_choice <<- "gsand_blood"
+# menu_choice <<- "gsand_female"
+```
+
+### FUll sandwich
+
+```{r}
+if(menu_choice == "sand_full"){
+  type <- "sandwich"
+cohorts_to_keep <- "every_5"
+kappa <- switch(type, sandwich = 18, grandsandwich = 15)
+tau = 5
+in_laws <- TRUE
+sex_keep <-  "both"
+}
+
+```
+
+### Medium sandwich
+
+```{r}
+if(menu_choice == "sand_medium") {
+  type <- "sandwich"
+  cohorts_to_keep <- "every_5"
+  kappa <- switch(type, sandwich = 15, grandsandwich = 15)
+  tau = 5
+  in_laws <- TRUE
+  sex_keep <-  "both"
+}
+```
+
+### Blood sandwich
+
+Same as full sandwich, but ignores in-laws.
+
+```{r}
+
+if(menu_choice == "sand_blood"){
+
+  type <- "sandwich"
+  cohorts_to_keep <- "every_5"
+  kappa <- switch(type, sandwich = 18, grandsandwich = 15)
+  tau = 5
+  in_laws <- F
+  sex_keep <-  "both"
+}
+
+```
+
+### Female sandwich
+
+For comparing to formal model.
+
+```{r}
+if(menu_choice == "gsand_female"){
+  
+  type <- "sandwich"
+cohorts_to_keep <- "every_5"
+kappa <- switch(type, sandwich = 18, grandsandwich = 15)
+tau = 5
+in_laws <- T
+sex_keep <-  "women"
+}
+```
+
+### FUll grand-sandwich
+
+
+```{r}
+if(menu_choice == "gsand_full"){
+  type <- "sandwich"
+cohorts_to_keep <- "every_5"
+kappa <- switch(type, sandwich = 18, grandsandwich = 15)
+tau = 5
+in_laws <- TRUE
+sex_keep <-  "both"
+}
+
+```
+
+### Blood grand-sandwich
+
+Same as full sandwich, but ignores in-laws.
+
+```{r}
+
+if(menu_choice == "gsand_blood"){
+
+  type <- "grandsandwich"
+  cohorts_to_keep <- "every_5"
+  kappa <- switch(type, sandwich = 18, grandsandwich = 15)
+  tau = 5
+  in_laws <- F
+  sex_keep <-  "both"
+}
+
+```
+
+### Female grand-sandwich
+
+For comparing to formal model.
+
+```{r}
+if(menu_choice == "gsand_female"){
+  
+  type <- "grandsandwich"
+cohorts_to_keep <- "every_5"
+kappa <- switch(type, sandwich = 18, grandsandwich = 15)
+tau = 5
+in_laws <- T
+sex_keep <-  "women"
+}
+
+
+```
+
+
+## Input
+
+A set of SOCSIM rsaves. The script actually works with csv files computed from Rsaves (which is not very efficient, but well...)
+The input csv files are created by another job script (job_unpack.R) but this only needs to be done once (given a set of .rsaves files exported from SOCSIM).
+
+## Output (value)
+
+`05_format_estimates` should produce a 'full' and 'aggregate' csv file, each of which summarises, for each birth cohort, the share of a given age group that was squeezed between generations. 
+The 'full' version includes estimates from multiple simulations while the aggregated one reports the mean of all simulations for each country.
+Different definitions of squeeze are considered, producing a differen output each (and must be run seaprately).
+You can identify what wach output csv files referes to by considering its name according to formula:
+
+```{r}
+print(paste0("~Data/estimates/socsim_", type,"_", sex_keep, "_", cohorts_labs, "_", in_law_lab, "_", kappa, "_", tau, "_", "full.csv"))
+```
+
+In addition, outputs to full estiamtes for each country in individual csv files (not aggregated in any way).
+
+## Todo (20200629)
+
+- Time sandwiched and grandsandwiched
+- Save csv with menu_choice name only?
+- Create Obj list to store all parameters for passing to functions instead of saving them in separate variables
+- By 20200630, the files "socsim_sandwich_both_cohort_all_in_laws_18_5_aggregate" and "socsim_sandwich_both_in_laws_18_5_Albania" have the same type of information, but the coutnry-specific ones do not have the full name
+- Countries within each region are not processed aphabetically - check that there's no error...
+- Estimate duration 15_5

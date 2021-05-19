@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+Data/socsim_all/
+Data/socsim/*.csv
+Data/derived/*.csv
+Data/estimates/*.csv
+Data/temp
+Data/__archive
+Data/derived/__archive
+R/__other_working
+Output/*.eps
+Output/edited
