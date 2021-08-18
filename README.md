@@ -1,6 +1,6 @@
 # Scripts for reproducible analysis 
 
-Code for reproducible results for paper Alburez-Gutierrez, D., Mason, C., and Zagheni, E. (2021). *The 'Sandwich Generation' Revisited: Global Demographic Drivers of Care Time Demands*. Population and Development Review. DOI:[10.4054/MPIDR-WP-2020-037](https://dx.doi.org/10.4054/MPIDR-WP-2020-037).
+Code for reproducible results for paper Alburez-Gutierrez, D., Mason, C., and Zagheni, E. (2021). *The 'Sandwich Generation' Revisited: Global Demographic Drivers of Care Time Demands*. Population and Development Review. DOI:[10.1111/padr.12436](https://doi.org/10.1111/padr.12436).
 
 Use in combination with the Harvard Dataverse repository that includes the SOCSIM simulation outputs for each country:
 
