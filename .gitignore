@@ -10,5 +10,6 @@ Data/temp
 Data/__archive
 Data/derived/__archive
 R/__other_working
+R/D_twitter_plots
 Output/*.eps
 Output/edited

@@ -19,8 +19,6 @@ sand_reg <-
   group_by(region, cohort, age) %>% 
   dplyr::summarise(
     value = mean(value, na.rm = T)
-    # , lower = confidence_interval(value, type = "lower", ci = ci)
-    # , upper = confidence_interval(value, type = "upper", ci = ci)
   ) %>%
   ungroup() 
 
@@ -28,13 +26,10 @@ sand_reg <-
 
 sand_stable_reg <- 
   sand_model_stable %>% 
-  # fix_socsim_countries(keep_regions = F) %>% 
   find_regions_code(ignore_regions = F, pretty_names = T) %>%
   group_by(region, cohort, age) %>% 
   dplyr::summarise(
     value = mean(value, na.rm = T)
-    # , lower = confidence_interval(value, type = "lower", ci = ci)
-    # , upper = confidence_interval(value, type = "upper", ci = ci)
   ) %>%
   ungroup() 
   
@@ -77,8 +72,6 @@ dur_reg <-
   group_by(type, region, cohort) %>%
   summarise(
     value = mean(value, na.rm = T)
-    #, lower = confidence_interval(value, type = "lower", ci = ci)
-    # , upper = confidence_interval(value, type = "upper", ci = ci)
   ) %>%
   ungroup()
 
@@ -111,8 +104,6 @@ lifep_reg <-
   group_by(type, region, cohort) %>%
   summarise(
     value = mean(value, na.rm = T)
-    # , lower = confidence_interval(value, type = "lower", ci = ci)
-    # , upper = confidence_interval(value, type = "upper", ci = ci)
   ) %>%
   ungroup()
 
@@ -128,7 +119,5 @@ dep_reg <-
   group_by(variable, region, year) %>%
   summarise(
     value = mean(value, na.rm = T)
-    # , lower = confidence_interval(value, type = "lower", ci = ci)
-    # , upper = confidence_interval(value, type = "upper", ci = ci)
   ) %>%
   ungroup()

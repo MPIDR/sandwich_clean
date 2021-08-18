@@ -68,27 +68,25 @@ female_births_all <- read.csv(
 # Note that this value is grouped and was ungrouped in another script
 # cf WPP_ungroup_age_year
 
-# The function below applies cohort life tables to real-life populatinos
+# The function below applies cohort life tables to real-life populations
 # with the intention of gettin the lx column
 # where radices are the initial size of birth cohorts 
 # of women using wpp data
 
 # lx_df is a df with the number of women surviving up to age 100 for specific
-# birth cohort-country cobminations
+# birth cohort-country combinations
 # Put differently, it is the number of woman at risk of losing a child
 # ie the denominator for the absolute measure of child loss
-
-# It was estimated for the child_death analysis (7_[x].R)
 
 lx_df_full <- data.table::fread("../../Data/estimates/lx_df_full.csv", stringsAsFactors = F) %>% 
   data.frame
 
-# Estimate surviving women by applying life tbale 
+# Estimate surviving women by applying life table
 # to population of girls born in each cohort
 # THis is different from the lx_df estimated for child
-# death, because it inlcudes cohorts oup to 2099
+# death, because it includes cohorts up to 2099
 # even if not all ages are complete
-# I need this here since poplation values for cohorts 
+# I need this here since population values for cohorts 
 # over 2000 are used in the estimation 
 # below
 
@@ -111,52 +109,6 @@ lx_df_full <- data.table::fread("../../Data/estimates/lx_df_full.csv", stringsAs
     
   }
   
-# 2. SOCSIM opops 
-
-# Cave <- "../../Data/socsim/"
-# 
-# # These files are saved in Carl's Rsave format in different folders, as they are
-# # saved by the SOCSIM simulations in Keyfitz
-# 
-# # Use this function to unpack them and save as csv files the opop and omar
-# 
-# 
-# if(save_rsaves_as_csv){
-#   unpack_simulation_rsaves(Cave = Cave)
-# }
-# 
-# # Load csv files 
-# 
-# # Get names of simulation files
-# sim_names <- gsub(
-#   "^socsim_opop_"
-#   , ""
-#   , list.files(pattern = "^socsim_opop_", path = Cave, full.names = F)
-# )
-# 
-# sim_names <- gsub(".csv", "", sim_names)
-
-# Load opop  as list
-
-# opops <- list.files(pattern = "^socsim_opop", path = Cave, full.names = T)
-# opop_l <- lapply(opops, data.table::fread, stringsAsFactors = F)
-# names(opop_l) <- sim_names
-# # opop_df <- data.frame(do.call(rbind, opop_l))
-# 
-# # Load omar 
-# 
-# omars <- list.files(pattern = "^socsim_omar", path = Cave, full.names = T)
-# omar_l <- lapply(omars, data.table::fread, stringsAsFactors = F)
-# names(omar_l) <- sim_names
-
-# 2. SOCSIM Sandwich estimates ====
-
-# With different values of kappa and tau
-# socsim_estimates_files <- list.files(path = "../../Data/estimates", pattern = "^socsim_sandwich_proportion_", full.names = T)
-# socsim_estimates_l <- lapply(socsim_estimates_files, readRDS)
-# 
-# sand_socsim_aggregated_simulations <- data.frame(data.table::fread("../../Data/estimates/socsim_sandwich_aggregate.csv", stringsAsFactors = F)) 
-
 # 3. Model sandwich estimates
 
 sand_model <- read.csv("../../Data/estimates/model_sandwich_proportion.csv", stringsAsFactors = F)

@@ -1,7 +1,5 @@
 # 0. Preamble --------------
 
-# Cohorts that are both present in the cohort life tables and sandwich estimates
-# cohorts_in_common <- 1970:2040
 ci <- 0.95
 
 cohort_map <- 1970
@@ -45,7 +43,6 @@ years_squeezed <-
   left_join(ex_country, by = c("country", "cohort")) %>% 
   mutate(
     share = (value / ex)*100
-    # , share_adult = (value / (ex - start_of_adult_life))*100
   )
 
 # 2.3. Plot =================
@@ -84,7 +81,6 @@ w_gsand <-
   , values_gsand
   , by = "country"
 ) %>%
-  # filter(! ID %in% "Antarctica") %>% 
   mutate(type = "gsand")
 
 w <- 
@@ -111,13 +107,11 @@ no_title <-
   ) +
   scale_fill_viridis(
     name = bar_name
-    # , option="cividis"
     , option="plasma"
     , breaks = bar_br
     , limits = bar_lim
     , direction = viridis_direction
   ) +
-  # labs(title = tit, caption = cap) +
   coord_sf(crs = "+proj=robin") +
   facet_wrap(~type, ncol = 1, strip.position = "top") +
   theme_minimal(base_size = 8) +
@@ -134,11 +128,8 @@ no_title <-
     fill = guide_colourbar(barwidth = 0.5, barheight = 16)
   )
 
-# ggsave(paste0("../../Output/map_duration", "_", "both", "_",cohort_map, "_",kappa_sand, "_",kappa_gsand, "_",tau, ".pdf"), height = 14, width = 16, units = "cm")
-
 ggsave("../../Output/alburez Figure 3_no_title.pdf", no_title, height = 14, width = 16, units = "cm")
 
 no_title + labs(title = tit, caption = cap) 
 
 ggsave("../../Output/alburez Figure 3.pdf", height = 14, width = 16, units = "cm")
-# ggsave("../../Output/alburez Figure 3.eps", height = 14, width = 16, units = "cm")

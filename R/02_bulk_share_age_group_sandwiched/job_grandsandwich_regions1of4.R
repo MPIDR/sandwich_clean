@@ -8,15 +8,10 @@
 # this from job scripts <<-
 
 menu_choice <<- "gsand_full"
-# menu_choice <<- "gsand_blood"
-# menu_choice <<- "gsand_female"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------
 
 setwd("../..")
 
-# sink(paste0("R/0_berkeley_bulk_estimates/sink", ".txt"))
-
-# (files <- list.files(path = "R/0_berkeley_bulk_estimates", pattern = ".R$", full.names = T))
 (files <- list.files(path = "R/02_bulk_share_age_group_sandwiched", pattern = ".R$", full.names = T))
 
 # Load functions ##############

@@ -100,15 +100,8 @@ print("%^%^%^%^%^%^%^%^%^")
 countries_to_analyse <- "by_region"
 countries_ignore <- ""
 # 
-# # Available regions:
-# # all_regions <- countries_clean$region %>% as.character %>% unique %>%  dput %>% sort
-# # region_to_keep <- all_regions[5]
-# region_to_keep <- "LATAM & Caribbean"
-# countries_ignore <- ""
-# # countries_ignore <- c("ATG", "ABW", "BHS", "BRB", "CUW", "DOM","GRD", "GUF", "GLP", "GUY", "JAM", "MTQ", "VCT", "SUR", "TTO", "VIR")
 
 # !!.2 Cohorts to compare ====================
-
 
 #  Parameters stay the same ----------------------
 
@@ -121,9 +114,6 @@ keep_only_new  <-  T
 numCores <- switch(os, Windows = 25, Linux = 10)
 print(paste0("numCores =", numCores))
 
-# Convert SOCSIM raw output to csv files
-# save_rsaves_as_csv <- T
-
 # SOCSIM ----
 
 in_law_lab <- ifelse(in_laws, "in_laws", "blood_kin")
@@ -132,16 +122,6 @@ in_law_lab <- ifelse(in_laws, "in_laws", "blood_kin")
 print(paste("Keeping sex:", sex_keep))
 
 if(in_laws) print("INCLUDING IN-LAWS!!")
-
-# if(type == "sandwich") {
-#   # kappa <- 5 # Min age of child
-#   kappa <- 18 # Min age of child
-#   tau <- 5 # Years in which parents of sandwiched ego will die  
-# } else if(type == "grandsandwich"){
-#   kappa <- 15 # Min age of child
-#   # kappa <- 5 # Min age of child
-#   tau <- 5 # Years in which parents of sandwiched ego will die
-# }
 
 print("^~^~^~^~^~^~^~^~^~^~^~")
 print(paste("Since type is",type, "then, kappa =", kappa, "and tau = ", tau))
@@ -171,42 +151,16 @@ if(cohorts_to_keep == "all"){
   
   # Group with cohorts +/- n years appart
   cos_size <- 2
-  # cos_or <- c(1999, 2039)
-  # cos_or <- c(1999,2009, 2019, 2029, 2039)
   cos_or <- floor(seq(1965, 2090, length.out = 15))
   
   if(cos_size == 1) cos <- sort(c(cos_or, cos_or -cos_size, cos_or +cos_size))
   if(cos_size == 2) cos <- sort(c(cos_or, cos_or - 1, cos_or - cos_size, cos_or + 1, cos_or +cos_size))
-  # cos <- sort(c(cos_or, cos_or -1, cos_or -2, cos_or +1, cos_or +2))
-  # For creating cohorts from birth years
-  # Define cohort breaks
-  # First, how many years does a cohort have?  
-  # For 10-year cohorts
-  # by <- 10
-  # br <- seq(min(cos), max(cos), by)
-  # labs <- seq(min(cos)+ floor(by/2), max(cos) - floor(by/2), by)
-  
+
   # For 5-year cohorts
-  # by <- 10
   br <- sort(c(cos_or - (cos_size +1), cos_or + (cos_size + 1)))
-  
-  # if(length(cos_or) == 2) {
-  #   labs <- c(cos_or[1], NA , cos_or[2])    
-  # }
-  # 
-  # if(length(cos_or) == 4) {
-  #   labs <- c(cos_or[1], NA , cos_or[2], NA, cos_or[3], NA, cos_or[4])    
-  # }
-  # 
-  # if(length(cos_or) == 5) {
-  #   labs <- c(cos_or[1], NA , cos_or[2], NA, cos_or[3], NA, cos_or[4], NA, cos_or[5])    
-  # }
   
   labs <- rep(NA, (length(cos_or)*2 - 1))
   labs[seq(1,length(labs), length.out = length(cos_or))] <- cos_or
-  
-  # cut(cos, breaks = br, labels = labs, include.lowest = T)
-  # cut(cos, breaks = br, include.lowest = T)
   
 } else if(cohorts_to_keep == "max_min"){
   
@@ -235,8 +189,6 @@ if(cohorts_to_keep == "all"){
   labs <- cos
   
   cos_or <- cos
-  # cos_size <- 1
-  
 }
 
 print(paste("Looking at cohorts", cohorts_to_keep, "-", paste(cos, collapse = ",")))
@@ -276,9 +228,6 @@ EndYr <- endmo:(endmo - 11)
 
 # 1.4. Age parameters ====
 
-# min_age <- 0
-# max_age <- 90
-
 min_age_socsim <- 15
 max_age_socsim <- 100
 
@@ -286,10 +235,6 @@ age_range_socsim <- min_age_socsim:max_age_socsim
 
 # Determine which ages to consider only
 ages_socsim_in_months <- (min_age_socsim*12):(max_age_socsim*12)
-
-# # Create vector to re-use in mapply functionin function later on
-# ages_to_keep_socsim <-  split(rep(ages_socsim_in_months, length(sim_names)), sort(rep(sim_names, length(ages_socsim_in_months))))
-
 
 # Confidence intervals for plots
 
@@ -300,12 +245,6 @@ ci_lab <- paste0(ci*100, "%")
 
 # For the model, the values must be between 1999 and 2040
 # if the max_age is 55
-# COmmented out so they will be inherited from previous
-# # script
-# cos_model <- labs
-# 
-# # FOR TESTING
-# cos_model <- c(2000)
 
 min_age_model <- 15
 max_age_model <- 55
@@ -314,9 +253,7 @@ age_range_model <- min_age_model:max_age_model
 # 
 # # Determine which ages to consider only
 ages_model_in_months <- (min_age_model*12):(max_age_model*12)
-# 
-# ages_to_keep_model <-  split(rep(ages_model_in_months, length(sim_names)), sort(rep(sim_names, length(ages_model_in_months))))
-# 
+
 # # Reproductive age
 rep_age <- xs <- 15:49
 
@@ -337,9 +274,9 @@ if(F) {
 }
 
 # Define path!! ===============
-# For saving and importing and exluding siulations
+# For saving and importing and excluding simulations
 # Old pattern, without cohorts_labs
-# pat <- paste0(type,"_", sex_keep, "_", in_law_lab, "_", kappa, "_", tau, "_")
+
 # New patterns
 pat <- paste0(type,"_", sex_keep, "_", cohorts_labs, "_", in_law_lab, "_", kappa, "_", tau, "_")
 

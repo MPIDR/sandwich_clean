@@ -43,7 +43,7 @@ cohorts_labs <- paste0("cohort_", cohorts_to_keep)
 
 tau <- 5
 
-# FOR NOW, just run the code below multiple times with different values for kappa and 
+# Just run the code below multiple times with different values for kappa and 
 # tau to get the differnet 'types of sandwich':
 # Min age of child
 # kappa <- 5

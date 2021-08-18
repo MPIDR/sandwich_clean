@@ -90,21 +90,17 @@ numCores <- switch(os, Windows = 25, Linux = 10)
 # Define path!! ===============
 # For saving and importing and exluding siulations
 # Old pattern, without cohorts_labs
-# pat <- paste0(type,"_", sex_keep, "_", in_law_lab, "_", kappa, "_", tau, "_")
+
 # New patterns
 pat <- paste0(sex_keep, "_", cohorts_labs, "_", in_law_lab, "_k_s_", kappa_kids, "_k_gs_", kappa_gkids, "_", tau)
 
 Cave <- switch(os, 
                Linux = "../90days/SandwichRESULTS/preliminary_june20"
-               # , Windows = "../socsim_all"
-               # , Windows = "../../../socsim_all"
                , Windows = "../socsim_all"
 )
 
 ResultsRepo <- "Data/temp"
-# ResultsRepo <- "../../Data/temp"
-# Directory for large files
-# out_temp <- "../../Data/temp"
+
 out_temp_specific <- paste0(ResultsRepo, "/", pat)
 
 print(paste("Path is", out_temp_specific))

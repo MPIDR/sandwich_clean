@@ -142,10 +142,7 @@ ex_country <-
 dur_share <-
   dur %>% 
   left_join(ex_country, by = c("country", "cohort")) %>% 
-  mutate(
-    share = (value / ex)*100
-    # , share_adult = (value / (ex - start_of_adult_life))*100
-  ) %>% 
+  mutate(share = (value / ex)*100) %>% 
   select(region, country, type, cohort, duration = value, share) %>% 
   pivot_longer(c(duration:share), names_to = "measure", values_to = "value") %>% 
   mutate(

@@ -89,8 +89,6 @@ female_births_all <- read.csv(
 # Put differently, it is the number of woman at risk of losing a child
 # ie the denominator for the absolute measure of child loss
 
-# It was estimated for the child_death analysis (7_[x].R)
-
 lx_df_full <- data.table::fread("../../Data/estimates/lx_df_full.csv", stringsAsFactors = F) %>% 
   data.frame
 
@@ -102,7 +100,6 @@ lx_df_full <- data.table::fread("../../Data/estimates/lx_df_full.csv", stringsAs
 
 # DECIDE CRITERIA FOR LOADING SANDWIHC DATA
 sex_keep <- "both"
-# cohorts_labs <- "cohort_every_5"
 cohorts_labs <- "cohort_minimal"
 in_law_lab <- "in_laws"
 kappa_sand <- 15
@@ -117,7 +114,6 @@ print(paste("Has a grandchild younger than", kappa_gsand))
 # Define paths to locate data
 sand_path <- paste0(sex_keep, "_", cohorts_labs, "_", in_law_lab, "_", kappa_sand,"_",tau)
 gsand_path <- paste0(sex_keep, "_", cohorts_labs, "_", in_law_lab, "_", kappa_gsand,"_",tau)
-# dur_path <- pat <- paste0(sex_keep, "_", cohorts_labs, "_", in_law_lab, "_k_s_", kappa_sand, "_k_gs_", kappa_gsand, "_", tau)
 dur_path <- pat <- paste0(sex_keep, "_", "cohort_minimal", "_", in_law_lab, "_k_s_", kappa_sand, "_k_gs_", kappa_gsand, "_", tau)
 path_stable <- paste0("female", "_", "cohort_all", "_", "blood", "_", kappa_sand, "_", tau)
 
@@ -142,17 +138,12 @@ sand_model_stable <-
            ) %>% 
   fix_socsim_countries()
 
-# unique(sand_model_stable$country)
-# unique(sand_model_stable2$country)
-
 # Sandwich duration ===============
 
 duration <- read.csv(
   paste0("../../Data/estimates/duration_",dur_path,".csv")
   , stringsAsFactors = F
 )
-
-
 
 # Dependency rates ==================
 # Read estimates of comparing definitions of dependency ratios:

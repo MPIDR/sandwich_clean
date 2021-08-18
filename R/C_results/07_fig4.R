@@ -127,7 +127,6 @@ no_title <-
   scale_x_continuous(paste0("Age (", cohort_keep, " cohort)" )) +
   scale_linetype_manual("", breaks = br_comb, labels = labs_comb, values = c("solid", "dashed", "dotted")) +
   scale_color_discrete("") +
-  # labs(title = tit, caption = cap) +
   coord_cartesian(ylim = c(0, 22), xlim = x_lim) +
   theme_bw() +
   theme(
@@ -144,16 +143,9 @@ no_title <-
   )
 
 
-# ggsave(
-#   paste0("../../Output/sandwich_over_age_doomed_",cohort_keep,"_",kappa_sand, "_",kappa_gsand, "_",tau, ".pdf")
-#        , width = w_p, height = h_p
-# )
-  
 ggsave("../../Output/alburez Figure 4_no_title.png", no_title, height = 12, width = 16, units = "cm")
   
 no_title + labs(title = tit, caption = cap) 
 
 ggsave("../../Output/alburez Figure 4.pdf", width = 5, height = 5.5)
 ggsave("../../Output/alburez Figure 4.eps", width = w_p, height = h_p)
-
-

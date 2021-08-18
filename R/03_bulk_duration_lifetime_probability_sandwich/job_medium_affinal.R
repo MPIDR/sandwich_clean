@@ -9,9 +9,7 @@
 
 # Sandwich
 # 20201106: # USE medium_affinal!!!
-# menu_choice <<- "small_affinal"
 menu_choice <<- "medium_affinal"
-# menu_choice <<- "medium_blood"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

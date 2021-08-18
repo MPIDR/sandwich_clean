@@ -103,8 +103,6 @@ size <-
   ) %>% 
   ungroup() 
   
-
-
 #  1. Plot: All country-cohort in one plot =============
 
 # Get country-level estimates
@@ -163,7 +161,6 @@ no_title <-
     , plot.caption = element_text(hjust = 0)
   )
 
-# ggsave(paste0("../../Output/size_tfr_ex_stable.pdf"), width = 15, height = 12, units = "cm")
 ggsave("../../Output/alburez Figure 1_no_title.png", no_title, height = 12, width = 15, units = "cm")
 
 no_title + labs(title = tit, caption = cap) 

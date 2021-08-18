@@ -7,17 +7,11 @@
 # this from job scripts <<-
 
 # Sandwich
-# menu_choice <<- "sand_full"
 menu_choice <<- "sand_medium"
-# menu_choice <<- "sand_blood"
-# menu_choice <<- "sand_female"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 setwd("../..")
 
-# sink(paste0("R/0_berkeley_bulk_estimates/sink", ".txt"))
-
-# (files <- list.files(path = "R/0_berkeley_bulk_estimates", pattern = ".R$", full.names = T))
 (files <- list.files(path = "R/02_bulk_share_age_group_sandwiched", pattern = ".R$", full.names = T))
 
 # Load functions ##############

@@ -179,7 +179,6 @@ w_sand <- left_join(
   , values_sand
   , by = "country"
 ) %>%
-  # filter(! ID %in% "Antarctica") %>% 
   mutate(type = "sand")
 
 # GRANDSANDWICH
@@ -200,7 +199,6 @@ w_gsand <-
     , values_gsand
     , by = "country"
   ) %>%
-  # filter(! ID %in% "Antarctica") %>% 
   mutate(type = "gsand")
 
 w <- 
@@ -233,7 +231,6 @@ no_title <- w %>%
     , direction = viridis_direction
     , labels = function(br) br*100
   ) +
-  # labs(title = tit, caption = cap) +
   coord_sf(crs = "+proj=robin") +
   facet_wrap(~type, ncol = 1, strip.position = "top") +
   theme_minimal(base_size = 8) +
@@ -251,10 +248,8 @@ no_title <- w %>%
   )
 
 
-# ggsave(paste0("../../Output/map_size",  "_", "both", "_",cohort_map, "_",kappa_sand, "_",kappa_gsand, "_",tau, ".pdf"), height = 14, width = 16, units = "cm")
 ggsave("../../Output/alburez Figure 2_no_title.pdf", no_title, height = 14, width = 16, units = "cm")
 
 no_title + labs(title = tit, caption = cap) 
 
 ggsave("../../Output/alburez Figure 2.pdf", height = 14, width = 16, units = "cm")
-# ggsave("../../Output/alburez Figure 2.eps", height = 14, width = 16, units = "cm")

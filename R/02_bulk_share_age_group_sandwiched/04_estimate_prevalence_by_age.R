@@ -1,8 +1,4 @@
 
-# For the US only, the output of the multiple simulation estimates
-# can be loaded:
-# socsim_sandwich <- readRDS("../../Data/estimates/socsim_sandwich_prop.RDS")
-
 # 20200325
 # Proportion women sandwiched over age.
 # Considering if a women has a a child (boy or girl) aged 5 or less
@@ -15,10 +11,6 @@
 
 # Denominator ~~~~~~~
 # number of women of age “a” who are alive in year “t”
-
-
-# Improvements Needed: 
-# - Ignore mortality of children
 
 # 1. Sandwich probability from SOCSIM ----
 
@@ -55,8 +47,6 @@ countries_clean <-
   # NOTE THAT THIS FUNCTION ONLY KEEPS COUNTRY BY DEFINITION!
   find_regions_code(ignore_regions = F, pretty_names = T) 
 
-  # select(country, country_name, region, opop, omar)
-
 # Pick here which countries you want to run the analysis for.
 
 
@@ -82,28 +72,18 @@ if(keep_only_new){
     keep_only_new_simulations(pattern = pat)
 }
   
-# temp
-# countries_clean <- countries_clean %>% filter(country %in% c("AFG", "TZA"))
-# countries_clean <- countries_clean %>% filter(country %in% c("SWZ"))
-
 paths_opop_l <- split(countries_clean$opop, countries_clean$country)
 paths_omar_l <- split(countries_clean$omar, countries_clean$country)
 
 # We want countries of the same region to run on after the other, so we sort the lists by region
 
-
 # sim_range is the index of the simulations that will be processed when calling this function
 # I split this instead of running all simulations at once to avoid losing information if
 # the HPC were to break down at some point, for example
 # Note that this is the number of countries, not simulations (there are multiple simulations per country)
-# sims_per_run <- 5
 
 # This is all just to get the different sim_range values for the loop
 # as a list
-# sim_range_all <- length(list.files(pattern = "^socsim_opop_", path = Cave))
-# br_range <- c(seq(1, sim_range_all, sims_per_run), Inf)
-# split_br <- cut(1:sim_range_all, br_range, include.lowest = T)
-# sim_range_l <- split(1:sim_range_all, split_br)
 
 for(n in seq_along(paths_omar_l)){
   socsim_sandwich_estimates_top(

@@ -1,11 +1,11 @@
-# Parallelisation # Code adapted from Carl's: 
+# Parallelisation # Code adapted from Carl Mason's: 
 # 01ProcessSim.r 
 # See 04_example_for_one_country to see how the actual crunching of the simulation
 # works for on country only as a example.
 
 # NOTES FOR INTERPRETING THE OUTPUT
 # Output for each country-simulation is a named list where $by.Cohort
-# stores the  main results, somethink of the form:
+# stores the  main results, something of the form:
 
 # $by.Cohort
 #                         1970        2040
@@ -26,8 +26,7 @@
 # mnt.nndeath.1218    0.1017821   0.0408592
 # mnt.nk5.1218        1.4916432   0.7220332
 
-# I still need to write a codebook of what all of these things mean, but
-# for now the most relevant are: 
+# The most relevant are: 
 
 # - mnt.sandwich
 # Months of life spent sandwiched
@@ -51,12 +50,6 @@
 # 1. locate all the sims files ----
 
 SIMS <- list.files(Cave, pattern = "sims.Rsave", recursive = T, full.names = T)
-
-# SIMS <- SIMS[grep("anzania",SIMS)]
-# SIMS <- SIMS[grep("fgha",SIMS)]
-# SIMS[grep("acedonia",SIMS)]
-# SIMS <- SIMS[grep("USA",SIMS)]
-# SIMS <- SIMS[grep("echia",SIMS)]
 
 if(!length(SIMS)){
   print("Can't find any sims.Rsaves bailing out")
@@ -90,7 +83,6 @@ XIMS<-split(SIMS,f=trunc((1:length(SIMS)/numCores)))
 foo <-list()
 
 for(i in 1:length(XIMS)){
-  #~for(i in 1:2){
   #~ Test for existance of results to prevent accidental overwrite
   #~ and to allow u to rerun without starting over
   # bufile <- sprintf("%s/%03d.Rsave",ResultsRepo,i)
@@ -113,10 +105,7 @@ for(i in 1:length(XIMS)){
   
   foo[[i]] <- try(foreach(sfile = XIMS[[i]]) %dopar% {
     print(sfile)
-    # sfile = XIMS[[i]][1]
-    # sfile <- XIMS[[1]][23]
-    # crunchRes <- CrunchSim(sfile,Obj)
-    
+
     crunchRes <-
       CrunchSim(
       sfile
@@ -178,7 +167,6 @@ print(Sys.time())
 #~ foo holds ALL results save it temporarily  then we'll change
 #~ it's shape and save it better
 save(file = paste0(out_temp_specific, "/tempsavefoo.Rsave"),foo)
-#~load(file="/72hours/tempsavefoo.Rsave")
 
 print(paste("Large (unpractical) 'foo' file saved as ", paste0(out_temp_specific, "/tempsavefoo.Rsave")))
 
@@ -204,11 +192,6 @@ names(foo) <-
 #~ Finalfoo.Rsave is the thing that 01Analyse will use
 
 save(file = paste0(out_temp_specific, "/", pat, "_Finalfoo.Rsave"), foo)
-# load(file= paste0(out_temp_specific, "/", pat, "_Finalfoo.Rsave"))
-
-
-# save(file= paste0(out_temp, "/", kappa_kids, "_", tau, "_and_",  kappa_gkids, "_", tau,"/Finalfoo.Rsave"), foo)
-# load(file= paste0(out_temp, "/", kappa_kids, "_", tau, "_and_",  kappa_gkids, "_", tau,"/Finalfoo.Rsave"))
 
 # Export months sandwiched as csv ======================
 
@@ -248,7 +231,6 @@ from_output <- lapply(file_names, function(f){
 
 sandwich_duration_months <- 
   data.frame(
-    # do.call(rbind,   lapply(results, function(crunchRes){
     do.call(rbind,   lapply(from_output, function(crunchRes){
       t(crunchRes$by.Cohort)[ , cols_keep] %>% 
         data.frame() %>% 
@@ -286,7 +268,6 @@ colnames(sandwich_duration_months) <- c("cohort"
 write.csv(
   sandwich_duration_months
   ,  paste0("Data/estimates/duration_",pat,".csv")
-  # ,  paste0("../../Data/estimates/duration_",pat,".csv")
   , row.names = F)
 
 print(paste("All estimates crunched and saved in their final form in", paste0("Data/estimates/duration_",pat,".csv")))

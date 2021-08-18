@@ -20,6 +20,3 @@ title_text_size <- 11
 axis_text_size <- 10
 
 regions_to_ignore <- c("AUS & NZ", "Oceania (other)")
-
-?
-  font_add

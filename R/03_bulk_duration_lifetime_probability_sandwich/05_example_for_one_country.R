@@ -1,6 +1,6 @@
 # NOT RUN
 # Just as an example of how this works
-# The function should actuallz be estimated from the script using the 
+# The function should actually be estimated from the script using the 
 # parallel processing
 
 # Code adapted from Carl's 
@@ -12,8 +12,6 @@
 # of a given Rsaves simulation file:
 
 if(detectCores() > 20){
-  # Stem <- "../socsim_all/USA_Medium.sup/246306/SimResults/sims"
-  # Stem <- "../socsim_all/United_Republic_of_Tanzania_Medium.sup/228391/SimResults/sims"
   Stem <- "../socsim_all/Afghanistan_Medium.sup/205969/SimResults/sims"
   sfile <- paste(Stem,".Rsave",sep='')  
 } else {
@@ -21,26 +19,11 @@ if(detectCores() > 20){
   sfile <- paste(Stem,".Rsave",sep='')
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 20201104
-# ISSUE 
-# problem with TZA is that birth cohrots only include:# 1750-1901
-# it should include 1751-2200
-# SOLUTION:
-# Fix simulation file
-# DIAGNOSTIC:
-# load("../socsim_all/United_Republic_of_Tanzania_Medium.sup/228391/SimResults/sims.Rsave")
-# opop <- add2opop(sims$opop,omar)
-# range(opop$cohort)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 # This returns a list with varying number of elements depending on what we ask the function 
 # to return.
 # In general, it returns one estimate per cohort (e.g average number of months sandwiched 
 # over the lifecourse)
-# Possible improvements:
-# - Return for men and women separately
-# - Return age-specific duration of sandwichness (currently sums over all ages)
+
 res <- 
   CrunchSim(
     sfile
